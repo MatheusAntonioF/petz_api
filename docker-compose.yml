@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  api:
+    container_name: petz
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules # Prevent to override node_modules inside docker container
+    ports:
+      - ${PORT}:${PORT}
+      - 9229:9229
+    command: npm run start:dev
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://petz:docker@petz_db:5432/petz_db?schema=public
+    networks:
+      - webnet
+    depends_on:
+      - petz_db
+
+  petz_db:
+    container_name: petz_db
+    image: postgres:12
+    environment:
+      POSTGRES_DB: petz_db
+      POSTGRES_USER: petz
+      POSTGRES_PASSWORD: docker
+      PG_DATA: /var/lib/postgresql/data
+    networks:
+      - webnet
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+networks:
+  webnet:
+
+volumes:
+  pgdata:

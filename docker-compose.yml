@@ -8,10 +8,8 @@ services:
       target: development
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules # Prevent to override node_modules inside docker container
     ports:
       - ${PORT}:${PORT}
-      - 9229:9229
     command: npm run start:dev
     env_file:
       - .env

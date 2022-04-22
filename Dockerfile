@@ -1,19 +1,22 @@
-FROM node:14.18.2-alpine AS development
+FROM node:14 AS development
 
 WORKDIR /usr/src/app
 
-COPY  package*.json ./
+COPY package.json ./
+COPY yarn.lock ./
+COPY prisma ./prisma/
 
 RUN npm install glob rimraf
 
 RUN npm install
 
 COPY . .
-COPY ./prisma prisma
 
 RUN npm run build
 
-FROM node:14.18.2-alpine AS production
+EXPOSE 3333
+
+FROM node:14 AS production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
@@ -21,6 +24,7 @@ ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
 
 COPY  package*.json ./
+COPY prisma ./prisma/
 
 RUN npm install --only=production
 
@@ -28,4 +32,6 @@ COPY . .
 
 COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "dist/main"]
+EXPOSE 3333
+
+CMD ["npm", "run", "start:prod"]

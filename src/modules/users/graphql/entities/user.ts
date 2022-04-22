@@ -1,9 +1,13 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Pet } from 'src/modules/pets/graphql/entities/pet';
 
 @ObjectType()
 export class User {
   @Field(() => ID)
   id: string;
+
+  @Field(() => [Pet])
+  pets?: Pet[];
 
   @Field()
   name: string;

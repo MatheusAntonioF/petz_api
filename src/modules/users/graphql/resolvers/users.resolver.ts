@@ -12,7 +12,7 @@ export class UsersResolver {
   ) {}
 
   @Query(() => User)
-  async user(@Args('id') id: string) {
+  async getUserById(@Args('id') id: string) {
     return this.getUserByIdUseCase.execute(id);
   }
 

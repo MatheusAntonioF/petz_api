@@ -2,23 +2,40 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Pet {
+  id: ID!
+  user: User!
+  name: String!
+  description: String!
+  photo: String!
+}
+
 type User {
   id: ID!
+  pets: [Pet!]!
   name: String!
   email: String!
   password: String!
 }
 
 type Query {
-  user(id: String!): User!
+  getUserById(id: String!): User!
+  getPetById(id: String!): Pet!
 }
 
 type Mutation {
   createUser(data: CreateUserInput!): User!
+  createPet(data: CreatePetInput!): Pet!
 }
 
 input CreateUserInput {
   name: String!
   email: String!
   password: String!
+}
+
+input CreatePetInput {
+  name: String!
+  description: String!
+  photo: String!
 }

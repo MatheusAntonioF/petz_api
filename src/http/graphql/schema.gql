@@ -2,20 +2,20 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Pet {
-  id: ID!
-  user: User!
-  name: String!
-  description: String!
-  photo: String!
-}
-
 type User {
   id: ID!
   pets: [Pet!]!
   name: String!
   email: String!
   password: String!
+}
+
+type Pet {
+  id: ID!
+  user: User!
+  name: String!
+  description: String!
+  photo: String!
 }
 
 type Query {

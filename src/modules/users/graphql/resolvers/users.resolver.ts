@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,6 +7,7 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { JwtGuard } from 'src/modules/authentication/infra/guards/jwt.guard';
 import { Pet } from 'src/modules/pets/graphql/entities/pet';
 import { CreateUserUseCase } from '../../useCases/create-user.use-case';
 import { GetPetsByUserIdUseCase } from '../../useCases/get-pets-by-user-id.use-case';
@@ -22,6 +24,7 @@ export class UsersResolver {
   ) {}
 
   @Query(() => User)
+  @UseGuards(JwtGuard)
   async getUserById(@Args('id') id: string) {
     return this.getUserByIdUseCase.execute(id);
   }
@@ -32,6 +35,7 @@ export class UsersResolver {
   }
 
   @ResolveField(() => [Pet])
+  @UseGuards(JwtGuard)
   async pets(@Parent() user: User) {
     return this.getPetsByUserIdUseCase.execute(user.id);
   }

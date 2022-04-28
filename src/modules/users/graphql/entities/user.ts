@@ -10,6 +10,9 @@ export class User {
   pets?: Pet[];
 
   @Field()
+  tokenAuth0?: string | null;
+
+  @Field()
   name: string;
 
   @Field()

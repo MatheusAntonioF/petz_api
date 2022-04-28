@@ -5,6 +5,7 @@
 type User {
   id: ID!
   pets: [Pet!]!
+  tokenAuth0: String!
   name: String!
   email: String!
   password: String!

@@ -15,6 +15,15 @@ services:
       - .env
     environment:
       DATABASE_URL: postgresql://petz:docker@petz_db:5432/petz_db?schema=public
+    deploy:
+      replicas: 20
+        update_config:
+          parallelism: 5
+          delay: 10s
+        restart_policy:
+          condition: on-failure
+          max_attempts: 3
+          window: 120s
     networks:
       - webnet
     depends_on:
